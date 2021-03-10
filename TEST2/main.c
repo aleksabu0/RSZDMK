@@ -1,0 +1,30 @@
+#include <avr/io.h>
+#include <avr/interrupt.h>
+
+unsigned int t0_cnt = 0;
+unsigned char disp= 1<<5;
+ISR(TIMER0_COMPA_vect)
+{
+  t0_cnt++;
+}
+
+int main()
+{
+   DDRB |= 1 << 5; //PB5 je izlaz
+
+   TCCR0A = 0x02; //tajmer 0: CTC mod
+   TCCR0B = 0x03; //tajmer 0: fclk = fosc/64
+   OCR0A = 249;
+   TIMSK0 = 0x02;
+
+   sei();
+   while (1)
+   {
+     if(t0_cnt==1000){
+       disp ^= 1 << 5;
+       t0_cnt = 0;
+       PORTB = disp;
+       }
+   }
+   return 0;
+}
