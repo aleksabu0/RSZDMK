@@ -1,0 +1,53 @@
+14:54:49 **** Incremental Build of configuration Release for project TEST2 ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega328p TEST2.elf
+AVR Memory Usage
+----------------
+Device: atmega328p
+
+Program:     334 bytes (1.0% Full)
+(.text + .data + .bootloader)
+
+Data:          4 bytes (0.2% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+Invoking: AVRDude
+C:\WinAVR-20100110\bin\avrdude -pm328p -carduino -PCOM4 -Uflash:w:TEST2.hex:a
+
+avrdude: AVR device initialized and ready to accept instructions
+
+Reading | ################################################## | 100% 0.00s
+
+avrdude: Device signature = 0x1e950f
+avrdude: NOTE: FLASH memory has been specified, an erase cycle will be performed
+         To disable this feature, specify the -D option.
+avrdude: erasing chip
+avrdude: reading input file "TEST2.hex"
+avrdude: input file TEST2.hex auto detected as Intel Hex
+avrdude: writing flash (334 bytes):
+
+Writing | ################################################## | 100% 0.06s
+
+avrdude: 334 bytes of flash written
+avrdude: verifying flash memory against TEST2.hex:
+avrdude: load data flash data from input file TEST2.hex:
+avrdude: input file TEST2.hex auto detected as Intel Hex
+avrdude: input file TEST2.hex contains 334 bytes
+avrdude: reading on-chip flash data:
+
+Reading | ################################################## | 100% 0.05s
+
+avrdude: verifying ...
+avrdude: 334 bytes of flash verified
+
+avrdude done.  Thank you.
+
+Finished building: avrdudedummy
+ 
+
+14:54:50 Build Finished. 0 errors, 0 warnings. (took 1s.462ms)
+

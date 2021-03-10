@@ -1,0 +1,34 @@
+#include <avr/io.h>
+#include <avr/interrupt.h>
+
+unsigned char t0_cnt = 0;
+unsigned char disp= 1<<5;
+ISR(TIMER0_COMPA_vect)
+{
+  t0_cnt++;
+}
+
+my_delay(unsigned long milliseconds){
+	if(milliseconds==125){
+	       disp ^= 1 << 5;
+	       milliseconds = 0;
+	       PORTB = disp;
+	      }
+}
+
+int main()
+{
+   DDRB |= 1 << 5; //PB5 je izlaz
+
+   TCCR0A = 0x02; //tajmer 0: CTC mod
+   TCCR0B = 0x04; //tajmer 0: fclk = fosc/64
+   OCR0A = 125;
+   TIMSK0 = 0x02;
+
+   sei();
+   while (1)
+   {
+     my_delay(t0_cnt);
+   }
+   return 0;
+}

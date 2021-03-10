@@ -1,0 +1,29 @@
+#define __AVR_ATmega328P__
+
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <util/delay.h>
+unsigned char t0_cnt = 0;
+
+ISR(TIMER0_COMPA_vect)
+{
+ t0_cnt++;
+}
+
+int main()
+{
+	 TCCR0A = 0x02; //tajmer 0: CTC mod
+	 TCCR0B = 0x03; //tajmer 0: fclk = fosc/64
+	 OCR0A = 123;
+	 TIMSK0 = 0x02;
+	 sei();
+     DDRB |= 1 << 5; //PB5 je izlaz
+	 while (1)
+	 {
+		 if(t0_cnt%2==0){
+			 PORTB ^= 1 << 5;
+			 t0_cnt = 0;
+	 	   }
+	 }
+	 return 0;
+}
