@@ -4,7 +4,7 @@
 unsigned long t0_cnt = 0;
 unsigned char disp= 1<<5;
 unsigned char duty=0;
-
+unsigned char smer=0;
 ISR(TIMER0_COMPA_vect)
 {
   t0_cnt++;
@@ -21,10 +21,18 @@ void my_delay(){
 	}
 	if(t0_cnt>255){
 		t0_cnt=0;
-		duty++;
+		if(smer==0){
+			duty++;
+		}
+		else{
+			duty--;
+		}
 	}
 	if(duty>=255){
-		duty =0;
+		smer =1;
+	}
+	if(duty<=0){
+		smer =0;
 	}
 }
 
