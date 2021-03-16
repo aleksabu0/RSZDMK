@@ -30,10 +30,10 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 LSS += \
-PWM.lss \
+PWM_TRI.lss \
 
 FLASH_IMAGE += \
-PWM.hex \
+PWM_TRI.hex \
 
 SIZEDUMMY += \
 sizedummy \
@@ -43,43 +43,43 @@ avrdudedummy \
 
 
 # All Target
-all: PWM.elf secondary-outputs
+all: PWM_TRI.elf secondary-outputs
 
 # Tool invocations
-PWM.elf: $(OBJS) $(USER_OBJS)
+PWM_TRI.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: AVR C Linker'
-	avr-gcc -Wl,-Map,PWM.map -mmcu=atmega328p -o "PWM.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	avr-gcc -Wl,-Map,PWM_TRI.map -mmcu=atmega328p -o "PWM_TRI.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-PWM.lss: PWM.elf
+PWM_TRI.lss: PWM_TRI.elf
 	@echo 'Invoking: AVR Create Extended Listing'
-	-avr-objdump -h -S PWM.elf  >"PWM.lss"
+	-avr-objdump -h -S PWM_TRI.elf  >"PWM_TRI.lss"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-PWM.hex: PWM.elf
+PWM_TRI.hex: PWM_TRI.elf
 	@echo 'Create Flash image (ihex format)'
-	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex PWM.elf  "PWM.hex"
+	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex PWM_TRI.elf  "PWM_TRI.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-sizedummy: PWM.elf
+sizedummy: PWM_TRI.elf
 	@echo 'Invoking: Print Size'
-	-avr-size --format=avr --mcu=atmega328p PWM.elf
+	-avr-size --format=avr --mcu=atmega328p PWM_TRI.elf
 	@echo 'Finished building: $@'
 	@echo ' '
 
-avrdudedummy: PWM.elf
+avrdudedummy: PWM_TRI.elf
 	@echo 'Invoking: AVRDude'
-	C:\WinAVR-20100110\bin\avrdude -pm328p -carduino -PCOM4 -Uflash:w:PWM.hex:a
+	C:\WinAVR-20100110\bin\avrdude -pm328p -carduino -PCOM4 -Uflash:w:PWM_TRI.hex:a
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(AVRDUDEDUMMY)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS)$(LSS)$(C_DEPS) PWM.elf
+	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(AVRDUDEDUMMY)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS)$(LSS)$(C_DEPS) PWM_TRI.elf
 	-@echo ' '
 
 secondary-outputs: $(LSS) $(FLASH_IMAGE) $(SIZEDUMMY) $(AVRDUDEDUMMY)
